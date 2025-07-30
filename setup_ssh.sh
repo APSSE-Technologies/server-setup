@@ -26,17 +26,15 @@ chmod 600 ~/.ssh/authorized_keys
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
 # 6. Aplica configurações seguras
-sudo sed -i 's/^#*Port .*/Port 2222/' /etc/ssh/sshd_config
 sudo sed -i 's/^#*PermitRootLogin .*/PermitRootLogin no/' /etc/ssh/sshd_config
 sudo sed -i 's/^#*PasswordAuthentication .*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 # 7. Garante que as diretivas existam
-grep -q "^Port 2222" /etc/ssh/sshd_config || echo "Port 2222" | sudo tee -a /etc/ssh/sshd_config
 grep -q "^PermitRootLogin no" /etc/ssh/sshd_config || echo "PermitRootLogin no" | sudo tee -a /etc/ssh/sshd_config
 grep -q "^PasswordAuthentication no" /etc/ssh/sshd_config || echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
 
 # 8. Configura o firewall
-sudo ufw allow 2222/tcp
+sudo ufw allow 22/tcp
 sudo ufw --force enable
 
 # 9. Reinicia o serviço SSH
@@ -46,5 +44,5 @@ sudo systemctl restart ssh
 echo ""
 echo "✅ SSH configurado com sucesso!"
 echo "🔐 Agora você pode conectar com:"
-echo "ssh -i ~/.ssh/id_ed25519 -p 2222 andre@170.xxx.xxx.xx"
+echo "ssh -i ~/.ssh/id_ed25519 -p 22 andre@170.xxx.xxx.xx"
 
